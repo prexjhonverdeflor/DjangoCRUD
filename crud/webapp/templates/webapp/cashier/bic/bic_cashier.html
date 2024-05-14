@@ -1,0 +1,55 @@
+{% extends 'webapp/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div id="main">
+      <span style="font-size: 30px; cursor: pointer" onclick="openNav()">
+          &#9776;
+      </span>
+      
+      <h5>Welcome, {{user}}</h5>
+      <h1 class="dashboard">BIC Setup</h1>
+      <h5>{{ branch_type|upper }} OFFICE</h5>
+      
+
+  <br />
+
+  <table id="table" class="table table-sm table-light table-hover shadow">
+    <thead class="table-active">
+        <tr>
+            <th scope="col">Branch Code</th>
+            <th scope="col">Branch Name</th>
+            <th scope="col">BRSTN</th>
+            <th scope="col">BIC</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if bic_setups %}
+        {% for bic_setup in bic_setups %}
+        <tr>
+            <td>{{ bic_setup.branch_code }}</td>
+            <td>{{ bic_setup.bank_name }}</td>
+            <td>{{ bic_setup.BRSTN }}</td>
+            <td>{{ bic_setup.BIC }}</td>
+
+        <td>
+    
+  </td>
+</tr>
+      {% endfor %} 
+      
+      {% endif %}
+    </tbody>
+  </table>
+
+  {% for bic_setup in bic_setups %} 
+
+  {% endfor %} 
+
+  {% endblock %}
+</div>
+</div>

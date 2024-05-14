@@ -1,0 +1,33 @@
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="card bg-light shadow mx-auto rounded-5" style="max-width: 30rem;">
+        <div class="card-header p-4">
+            {{record.first_name|upper}}
+            {{record.last_name}}
+        </div>
+        <div class="card-body p-4">
+         
+            <p> <strong> ID: </strong> {{record.id}}</p> 
+            <p> <strong> Firstname: </strong> {{record.first_name}}</p> 
+            <p> <strong> Lastname: </strong> {{record.last_name}}</p> 
+            <p> <strong> Email: </strong> {{record.email}}</p> 
+
+            <p> <strong> Date: </strong> {{record.creation_date}}</p> 
+
+            <br>
+            &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;
+            <a href="{% url 'dashboard' %}" class="btn btn-dark return-btn btn-sm"> Return <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

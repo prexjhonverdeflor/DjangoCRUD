@@ -1,0 +1,190 @@
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+
+<div class="container-fluid d-flex justify-content-center hidden main-container"> 
+    <div class="row mt-5 w-100"> 
+        <div class="col-md-6 text-end left">
+            <h1>Camalig Bank Payment Portal</h1>
+            <hr style="width: 100%;">
+            <h5>Let's Redefine Banking.</h5>
+        </div>
+
+        <div class="col-md-6" >
+
+          <div id="imageCarousel" class="carousel slide right-img" data-bs-ride="carousel" data-bs-interval="3000">
+            <!-- Indicators -->
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+          
+            <!-- Slides -->
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{% static 'img/cb-bg.jpg' %}" class="d-block w-100" alt="First Slide">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'img/cb-new.jpg' %}" class="d-block w-100" alt="Second Slide">
+              </div>
+              <div class="carousel-item">
+                <img src="{% static 'img/cb-bank.jpg' %}" class="d-block w-100" alt="Third Slide">
+              </div>
+            </div>
+          
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+
+        </div>
+    </div>
+</div> 
+
+<section class="section-company">
+  <div class="container-fluid hidden">
+    <h1 class="text-center">OUR COMPANY</h1>
+
+    <p class="mt-4 p-5" style="text-align: justify;">
+      Camalig Bank, Inc. (A Rural Bank), formerly the Rural Bank of Camalig (Albay), Inc., started its operations on 6 June 1969. Our founders started the Bank in response to the Central Bank's call to provide credit and financial services in the countryside.
+<br><br>
+Camalig Bank initially offered credit facilities to the agricultural sector. In later years, Camalig Bank extended its services to include salary, developmental, small and medium enterprise, real estate, microfinance, and DepED APDS (Department of Education Automatic Payroll Deduction Scheme) loans. The changing needs of the communities we serve led to expanding several other products, including financing for gadgets, vehicles, and heavy equipment. These loan types are introduced to meet the business and personal needs of Bicolanos in the hopes of spurring local economic activity. 
+<br><br>
+We take pride in a healthy deposit portfolio deeply rooted in our clients' trust. We have a wide selection of deposit products tailored to help our clients start their financial journey and achieve maximum growth potential for their savings. 
+<br><br>
+Fast forward to fifty years since our humble beginnings, Camalig Bank has gone to great lengths to transform from a single branch to now a solid institution with a region-wide presence through our sixteen branches and five branch-lite offices.
+<br><br>
+We are a financial institution committed to becoming part of our clients' growth through providing competitive rates and competent service while ensuring good corporate governance and prudent decision-making in all transactions.
+    </p>
+
+  </div>
+</section>
+
+
+<!-- Main Content Section -->
+<section class="full-width-section">
+  <div class="container-fluid hidden">
+    <h1 class="text-center text-white mt-5">ACHIEVEMENTS</h1>
+    
+    <div class="row justify-content-center gx-5">
+      <div class="col-12 col-md-3">
+        <div class="card shadow rounded-3 text-center ">
+          <img class="card-img-top" src="{% static 'img/cb-client.jpg' %}"  alt="Active Clients">
+          <div class="card-body">
+            <h5 class="card-title">43k</h5>
+            <p class="card-text">Active Clients</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="card shadow rounded-3 text-center">
+          <img class="card-img-top"src="{% static 'img/cb-bg.jpg' %}"  alt="Camalig Bank Offices">
+          <div class="card-body">
+            <h5 class="card-title">23</h5>
+            <p class="card-text">Camalig Bank Offices</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="card shadow rounded-3 text-center">
+          <img class="card-img-top" src="{% static 'img/cb-loan.jpg' %}"  alt="Approved Loans">
+          <div class="card-body">
+            <h5 class="card-title">1.4B</h5>
+            <p class="card-text">Approved Loans</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<footer class="text-center">
+  <div class="container p-4 hidden">
+    <section class="mb-4 mt-5">
+      <a class="btn btn-outline shadow rounded-5 m-1 hover-up" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+      <a class="btn btn-outline shadow rounded-5 m-1 hover-up" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+      <a class="btn btn-outline shadow rounded-5 m-1 hover-up " href="#!" role="button"><i class="fab fa-google"></i></a>
+      <a class="btn btn-outline shadow rounded-5 m-1 hover-up" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+      <a class="btn btn-outline shadow rounded-5 m-1 hover-up" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+      <a class="btn btn-outline shadow rounded-5 m-1 hover-up" href="#!" role="button"><i class="fab fa-github"></i></a>
+    </section>
+
+    <section>
+      <form>
+        <div class="row d-flex justify-content-center">
+          <div class="col-auto">
+            <p class="pt-2"><strong>Message Us:</strong></p>
+          </div>
+          <div class="col-md-5 col-12">
+            <div class="form-outline mb-2">
+              <input type="email" id="form5Example24" class="form-control shadow" placeholder="Enter your email" />
+              
+            </div>
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-outline shadow mb-4">Submit</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <div class="row">
+      <div class="col-md-6 text-start">
+        <p style="text-align: justify;">
+          Camalig Bank, Inc. (A Rural Bank) is regulated by the Bangko Sentral ng Pilipinas. 
+          For any complaints, inquiries, or requests, you may email 
+          consumeraffairs@bsp.gov.ph 
+          or call the BSP Financial Consumer Protection Department
+      </p>
+          
+      </div>
+      <div class="col-md-6 text-start">
+        <p style="text-align: justify;">
+          For inquiries, comments, and suggestions, you may email us at:
+          customer-support@camaligbank.com.ph 
+          <br>
+          Hotline: (052) 201 5223 local 306 / (+63) 918 917 3946
+      </p>
+      </div>
+  </div>
+  </div>
+
+  <section class="mb-2 hidden">
+    <div class="map-responsive">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3885.3798390345764!2d123.73657547381329!3d13.13842401120139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a103da8cfa1c4f%3A0xbdbbf465e6a6d0d7!2sCamalig%20Bank%20-%20Head%20Office!5e0!3m2!1sen!2sph!4v1714031610270!5m2!1sen!2sph" 
+      width="1300" 
+      height="250" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+</div>
+
+  <div class="text-center p-4 text-white" style="background-color: rgb(18, 50, 148);">
+    No-stack Developer:
+    <a class="text-reset fw-bold" href="https://facebook.com/preksdyan">Prex Verdeflor</a>
+    <br>
+    <br>
+    © 2024 CAMALIG BANK
+    <br>
+    ALL RIGHTS RESERVED 
+  </div>
+</footer>
+
+{% endblock %}

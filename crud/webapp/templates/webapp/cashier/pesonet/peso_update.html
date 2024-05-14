@@ -1,0 +1,30 @@
+{% extends 'webapp/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<body>
+    <div class="container bg-light shadow p-5 form-layout rounded-5 mt-4">
+        <h3> Update record</h3>
+        <hr>
+        <br>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            {{form|crispy}}
+
+            <br>
+  
+            <a href="{% url 'peso_net' %}" class="btn btn-dark return-btn btn-sm"> Return <i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            &nbsp;
+            <button type="submit " class="btn btn-success btn-sm "> Update <i class="fa fa-check" aria-hidden="true"></i></button>
+           
+        </form>
+    </body>
+
+
+
+{% endblock %}

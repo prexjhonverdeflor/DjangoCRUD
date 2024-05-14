@@ -1,0 +1,69 @@
+{% extends 'webapp/base.html' %} 
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+<div id="main">
+  <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
+    >&#9776;
+  </span>
+  
+  <h5>Welcome, {{user}}</h5>
+  <h1 class="dashboard">PESONET</h1>
+ 
+  <br />
+
+  <a class="btn btn-dark btn-sm" href="{% url 'peso_create' %}">
+    Create record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i>
+  </a>
+  
+  <br />
+  <br />
+
+  <table id="table" class="table table-sm table-light table-hover shadow">
+    <thead class="table-active">
+      <tr>
+        <th scope="col">Branch Name</th>
+        <th scope="col">OFI Reference Number</th>
+        <th scope="col">Transaction Amount</th>
+        <th scope="col">Transaction Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if peso_nets %}
+      {% for peso_net in peso_nets %}
+      <tr>
+          <td>{{ peso_net.branch_name }}</td>
+          <td>{{ peso_net.OFI_reference_num }}</td>
+          <td>{{ peso_net.transact_amount }}</td>
+          <td>{{ peso_net.transact_date }}</td>
+          <td>{{ peso_net.status }}</td>
+       
+      <td>
+        <a
+        class="btn btn-dark btn-sm"
+        href="{% url 'peso_update' peso_net.id %}"
+        >Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i
+        ></a>
+
+      </td>
+    </tr>
+
+      {% endfor %}
+      
+      {% endif %}
+    </tbody>
+  </table>
+
+  {% for peso_net in peso_nets %}
+
+  {% endfor %} 
+
+  {% endblock %}
+</div>
+</div>

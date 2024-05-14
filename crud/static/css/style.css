@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+  margin: 0; 
+  padding: 0; 
+  font-family: 'Poppins', sans-serif; 
+}
+
+.container-fluid {
+  padding: 0;
+}
+
+.form-layout {
+    border-radius: 20px;
+    width: 500px;
+}
+
+/* scroll */
+.hidden {
+  opacity: 0;
+  transition: all 1s;
+  filter: blur(5px);
+  transform: translateY(20%);
+}
+
+.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+
+.return-btn {
+    margin-left: 200px;
+}
+
+.message-text {
+  margin-left: 350px;
+    color: green;
+}
+
+.navbar-logo {
+    height: 100px;
+    margin-left: 40px;
+    margin-bottom: -50px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background-color: black; 
+  overflow-x: hidden;
+  transition: width 0.3s ease-in-out; 
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 20px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: color 0.3s; 
+}
+
+.sidenav .side-text {
+  margin-top: 50px;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1; 
+}
+
+.sidenav .closebtn {
+  margin-top: 10px;
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.navbar-custom {
+  background-color: white;
+  border: none;
+}
+
+#main {
+  transition: margin-left 0.3s ease-in-out; 
+  margin-left: -20px;
+}
+
+
+/* Custom styles for my-custom-navbar */
+.my-custom-navbar .nav-link { 
+  color: rgba(0, 0, 0, 0.534);
+  transition: color 0.3s, text-decoration 0.3s;
+  font-size: 1.1em; 
+}
+
+
+.my-custom-navbar .nav-link:hover { 
+  color: rgb(0, 0, 168); 
+}
+
+.my-custom-navbar .nav-link.active { 
+  text-decoration: underline;
+  text-underline-offset: 0.5em; 
+  color: rgb(0, 0, 168); 
+}
+
+
+
+.section-company {
+  padding: 100px 200px 0 200px;
+}
+
+
+.section-company h1{
+  font-weight: 100;
+  color:  rgb(0, 0, 168);
+}
+
+
+.hover-up {
+  transition: transform 0.2s; 
+}
+
+
+.hover-up:hover {
+  transform: translateY(-5px); 
+}
+
+.main-container {
+  margin-top: 160px;
+}
+
+
+.left  h1 {
+  font-size: 40px;
+  color: rgb(19, 54, 161);
+}
+
+
+.left h1 {
+  margin-left: 250px;
+}
+
+.left h5 {
+  margin-left: 330px;
+}
+
+
+.right-img {
+  margin-top: -130px;
+  width: 600px;
+}
+
+.dark-blue {
+  background-color:rgb(6, 19, 58); 
+  color: white; 
+  border: none; 
+}
+
+.btn-dark-blue {
+  background-color:rgb(18, 50, 148); 
+  color: white; 
+  border: none; 
+}
+
+.btn-darker-blue {
+  background-color:rgb(6, 19, 58); 
+  color: white; 
+  border: none; 
+}
+
+.btn-dark-blue:hover {
+  background-color: #06315c; 
+  color:rgb(204, 204, 204);
+}
+
+.btn-rounded-pill {
+  border-radius: 50px;
+}
+
+
+.carousel {
+  height: 400px;
+}
+
+.carousel-item img {
+  object-fit: cover; 
+  width: 100%; 
+  height: 100%; 
+}
+
+
+.full-width-section {
+  margin-top: 100px;
+  width: 100%;
+  padding: 50px 0; 
+  background-color:rgb(18, 50, 148); 
+  color: white;
+  
+}
+
+.full-width-section h2 {
+  color: white;
+}
+
+
+.full-width-section .row {
+  padding: 100px;
+  color: white;
+}
+
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+
+.dataTables_filter {
+  margin-left: 200px;
+
+}
+
+.dataTables_filter input {
+  width: 300px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dataTables_paginate {
+  margin-left: 300px;   
+  
+}
+
+
+
+
+
+
+
+
+
+
+.card {
+  transition: transform 0.3s; /* Smooth transition */
+
+  perspective: 1000px; /* Perspective distance for the 3D effect */
+
+}
+
+.card:hover {
+  transform: scale(1.04); /* Slightly enlarge on hover */
+}
+
+
+.card-img-top {
+  width: 100%;  
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  
+}
+
+
+.card .card-title {
+  color: rgb(18, 50, 148);
+  font-size:50px;
+
+}
+
+
+
+
+
+
+
+.parallax {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  width: 100%; /* Adjust the width as needed */
+  height: 50vh; /* Maintain the full viewport height */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  transition: background-image 1s ease-in-out;
+}
+
+.parallax::before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+
+
+
+

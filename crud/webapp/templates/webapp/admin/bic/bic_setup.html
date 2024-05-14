@@ -1,0 +1,107 @@
+{% extends 'webapp/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div class="head">
+
+  </div>
+  <div id="main">
+    <span style="font-size: 30px; cursor: pointer" onclick="openNav()">
+      &#9776;
+    </span>
+
+    <h5>Welcome, {{user}}</h5>
+    <h1 class="dashboard">BIC Setup</h1>
+
+    <h5>{{ branch_type|upper }} OFFICE</h5>
+    
+    <br />
+
+    <a class="btn btn-dark btn-sm" href="{% url 'bic_setup_create' %}">
+      Create record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
+
+    <br />
+    <br />
+
+    <table id="table" class="table table-sm table-light table-hover shadow">
+      <thead class="table-active">
+        <tr>
+          <th scope="col">Branch Code</th>
+          <th scope="col">Branch Name</th>
+          <th scope="col">BRSTN</th>
+          <th scope="col">BIC</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if bic_setups %}
+        {% for bic_setup in bic_setups %}
+        <tr>
+          <td>{{ bic_setup.branch_code }}</td>
+          <td>{{ bic_setup.bank_name }}</td>
+          <td>{{ bic_setup.BRSTN }}</td>
+          <td>{{ bic_setup.BIC }}</td>
+
+          <td>
+
+            <a class="btn btn-dark btn-sm" href="{% url 'bic_setup_update' bic_setup.id %}">Edit 
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+
+            <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal"
+              onclick="setDeleteUrl('{{ bic_setup.id }}')">
+              Delete <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </a>
+
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this record?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-dark  btn-sm" data-dismiss="modal">Cancel</button>
+                    <form id="deleteForm" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm ">Delete</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </td>
+        </tr>
+
+        {% endfor %}
+
+        {% endif %}
+      </tbody>
+    </table>
+
+    <script>
+      function setDeleteUrl(recordId) {
+        var deleteForm = document.getElementById("deleteForm");
+        var deleteUrl = "{% url 'bic_setup_delete' 9999 %}".replace("9999", recordId);
+        deleteForm.action = deleteUrl;
+      }
+    </script>
+
+    {% for bic_setup in bic_setups %}
+
+    {% endfor %}
+
+    {% endblock %}
+  </div>
+</div>
+

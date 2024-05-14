@@ -1,0 +1,76 @@
+  {% extends 'webapp/base.html' %} 
+
+  {% load crispy_forms_tags %}
+
+  {% block content %}
+
+
+  <div class="container mt-4">
+  <div id="main">
+    <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
+      >&#9776;
+    </span>
+    
+    <h5>Welcome, {{user}}</h5>
+    <h1 class="dashboard">MC Register</h1>
+    <h5>{{ branch_type|upper }} OFFICE</h5>
+   
+    <br />
+
+   
+
+    <a class="btn btn-dark btn-sm" href="{% url 'mc_register_create' %}">
+      Create record &nbsp; <i class="fa fa-plus" aria-hidden="true"></i>
+    </a>
+    
+    <br />
+    <br />
+
+    <table id="table" class="table table-sm table-light table-hover shadow">
+      <thead class="table-active">
+        <tr>
+          <th scope="col">Branch Name</th>
+          <th scope="col">Date Issued</th>
+          <th scope="col">Payee</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Check Number</th>
+          <th scope="col">Status</th>
+          <th scope="col">Branch Remarks</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if mc_registers %}
+        {% for mc_register in mc_registers %}
+        <tr>
+            <td>{{ mc_register.branch_name }}</td>
+            <td>{{ mc_register.date_issued }}</td>
+            <td>{{ mc_register.payee }}</td>
+            <td>{{ mc_register.amount }}</td>
+            <td>{{ mc_register.check_number }}</td>
+            <td>{{ mc_register.status }}</td>
+            <td>{{ mc_register.branch_remarks }}</td>
+         
+        <td>
+          <a
+          class="btn btn-dark btn-sm"
+          href="{% url 'mc_register_update' mc_register.id %}"
+          >Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i
+          ></a>
+
+        </td>
+      </tr>
+
+        {% endfor %}
+        
+        {% endif %}
+      </tbody>
+    </table>
+
+    {% for mc_register in mc_registers %}
+
+    {% endfor %} 
+
+    {% endblock %}
+  </div>
+  </div>
