@@ -11,9 +11,11 @@ setTimeout(function()
 //on scroll effect
 
 const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
+    entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('show');
+            setTimeout(() => {
+                entry.target.classList.add('show');
+            }, index * 200); // Adjust delay time (in milliseconds) as needed
             // Unobserve to prevent re-triggering
             observer.unobserve(entry.target);
         }
