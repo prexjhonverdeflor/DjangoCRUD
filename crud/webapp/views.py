@@ -23,34 +23,29 @@ def register(request):
         if form.is_valid():
             user = form.save()
             
-            # Get additional fields from the form
             user_type = form.cleaned_data.get('user_type')
             branch_type = form.cleaned_data.get('branch_type')
-
-            # Set staff status based on user_type
+            
             if user_type == 'admin':
                 user.is_staff = True
+                branch_type = None  # Admins do not have a branch type
             else:
                 user.is_staff = False
             
             user.save()  # Save the updated user status
             
-            # Create the related UserProfile with the additional fields
+            # Create the related UserProfile
             UserProfile.objects.create(
                 user=user,
                 user_type=user_type,
                 branch_type=branch_type
             )
             
-            # Display a success message
             messages.success(request, "Account created successfully!")
-            
-            # Redirect to the dashboard or another desired location
             return redirect("dashboard")
     else:
-        form = CreateUserForm()  # If not a POST request, initialize a new form
+        form = CreateUserForm()
     
-    # Render the registration template with the form
     context = {'form': form}
     return render(request, 'webapp/register.html', context)
 
@@ -80,15 +75,15 @@ def my_login(request):
 # Admin 
 @login_required(login_url='my-login')
 def admin_dashboard(request):
-
     user_profile = UserProfile.objects.get(user=request.user)
     branch_type = user_profile.branch_type
 
-    filtered_records = Record.objects.filter(branch=branch_type) 
+    # Retrieve all records without filtering by branch_type
+    all_records = Record.objects.all()
 
     context = {
         'branch_type': branch_type,
-        'records': filtered_records,
+        'records': all_records,
     }
 
     return render(request, 'webapp/admin/branch/dashboard.html', context)
@@ -142,15 +137,15 @@ def delete_record(request, pk):
 # BIC SETUP
 @login_required(login_url='my-login')
 def bic_setup(request):
-
     user_profile = UserProfile.objects.get(user=request.user)
     branch_type = user_profile.branch_type
 
-    filtered_records = BICSetup.objects.filter(branch=branch_type) 
+    # Retrieve all BICSetup records without filtering by branch_type
+    all_bic_setups = BICSetup.objects.all()
 
     context = {
         'branch_type': branch_type,
-        'bic_setups': filtered_records,
+        'bic_setups': all_bic_setups,
     }
 
     return render(request, 'webapp/admin/bic/bic_setup.html', context)
@@ -240,6 +235,7 @@ def mc_register_create(request):
     context = {'form': form}
     return render(request, 'webapp/cashier/mcregister/mc_create.html', {'form': form})
 
+
 #edit
 @login_required(login_url='my-login')
 def mc_register_update(request, mc_register_id):
@@ -310,25 +306,6 @@ def peso_update(request, peso_net_id):
         form = PesoNetForm(instance=peso_net)
         
     return render(request, 'webapp/cashier/pesonet/peso_update.html', {'form': form})
-
-
-
-#BIC cashier
-@login_required(login_url='my-login')
-def bic_cashier(request):
-
-    user_profile = UserProfile.objects.get(user=request.user)
-    branch_type = user_profile.branch_type
-
-    filtered_records = BICSetup.objects.filter(branch=branch_type) 
-
-    context = {
-        'branch_type': branch_type,
-        'bic_setups': filtered_records,
-    }
-
-    return render(request, 'webapp/cashier/bic/bic_cashier.html', context=context)
-
 
 
 

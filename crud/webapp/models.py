@@ -16,14 +16,14 @@ BRANCH_TYPE_CHOICES = [
     ('legazpi', 'Legazpi Office'),
 ]
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)  # Assuming max length of 'admin' or 'cashier'
-    branch_type = models.CharField(max_length=20, choices=BRANCH_TYPE_CHOICES)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)  
+    branch_type = models.CharField(max_length=20, choices=BRANCH_TYPE_CHOICES, null=True, blank=True)
 
     def __str__(self):
         return self.user.username 
-
 
 
 class Record(models.Model):
@@ -32,7 +32,6 @@ class Record(models.Model):
     branch_name = models.CharField(max_length=100)
     status = models.CharField(max_length=255)
     
-
     def __str__(self):
         return f"{self.branch} - {self.branch_code}"
     

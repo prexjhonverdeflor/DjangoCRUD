@@ -3,10 +3,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<body>
 
-    <div class="container-fluid bg-light shadow-md p-5 form-layout shadow mt-4 hidden">
-        <h3> Create account</h3>
+<body>
+    <div class="container-fluid bg-light shadow-md p-5 form-layout shadow mt-4">
+        <h3>Create account</h3>
         <hr>
         <form method="POST">
             {% csrf_token %}
@@ -14,18 +14,47 @@
             {{ form.password1|as_crispy_field }}
             {{ form.password2|as_crispy_field }}
             <br>
-            {{ form.user_type|as_crispy_field }} 
+            {{ form.user_type|as_crispy_field }}
             <br>
-            {{ form.branch_type|as_crispy_field }} 
-         
+            <div id="branch_type_container" class="hidden-register">
+                {{ form.branch_type|as_crispy_field }}
+            </div>
             <br>
-            <br>
+            
             <button type="submit" class="btn btn-dark-blue w-100 rounded-5 p-2">Create</button>
- 
         </form>
-        
     </div>
-</div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userTypeField = document.querySelector('input[name="user_type"]');  // Adjust the selector if needed
+            const branchTypeContainer = document.getElementById('branch_type_container');
+
+            // Check the initial state of user type to handle form prefill cases
+            const selectedUserType = document.querySelector('input[name="user_type"]:checked');
+            if (selectedUserType && selectedUserType.value === 'cashier') {
+                branchTypeContainer.classList.remove('hidden-register');
+            }
+
+            userTypeField.addEventListener('change', function(event) {
+                if (event.target.value === 'cashier') {  // Adjust the value if needed
+                    branchTypeContainer.classList.remove('hidden-register');
+                } else {
+                    branchTypeContainer.classList.add('hidden-register');
+                }
+            });
+
+            // Handle the scenario where user_type is a radio button group
+            document.querySelectorAll('input[name="user_type"]').forEach(function(elem) {
+                elem.addEventListener('change', function(event) {
+                    if (event.target.value === 'cashier') {  // Adjust the value if needed
+                        branchTypeContainer.classList.remove('hidden-register');
+                    } else {
+                        branchTypeContainer.classList.add('hidden-register');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 {% endblock %}
