@@ -3,7 +3,7 @@
 {% if user.is_authenticated %}
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
 
-  &nbsp; &nbsp; &nbsp; 
+  &nbsp; &nbsp; &nbsp;  
   <a class="navbar-brand">CAMALIG BANK</a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -17,16 +17,14 @@
       &nbsp; &nbsp; &nbsp;
       {% if user.is_authenticated %}
 
+      {% if user.is_staff %}
       <li class="nav-item">
-        {% if user.is_staff %}
-        <a class="nav-link" href="{% url 'dashboard' %}"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Add Cashier</a>
+        <a class="nav-link" href="{% url 'dashboard' %}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
         </li>
+     
   
         {% else %}
-        <a class="nav-link" href="{% url 'mc_register' %}">Dashboard</a>
+        <a class="nav-link" href="{% url 'mc_register' %}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
         {% endif %}
       </li>
 

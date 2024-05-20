@@ -15,6 +15,10 @@ urlpatterns = [
     path('dashboard', views.admin_dashboard, name="dashboard"),
     path('update-record/<int:pk>', views.update_record, name="update-record"),
     path('delete-record/<int:pk>', views.delete_record, name="delete-record"),
+    path('user-list/', views.user_list, name='user-list'),
+    path('edit-user/<int:user_id>/', views.edit_user, name='edit-user'),
+    
+
 
     path('bic-setup/', views.bic_setup, name='bic_setup'),
     path('bic-create/', views.bic_setup_create, name='bic_setup_create'),

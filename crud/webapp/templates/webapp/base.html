@@ -109,6 +109,61 @@
             });
         });
         </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                var showTodayOnly = true; // Initially show only today's data
+            
+                // Initialize DataTable
+                var table = $('#table').DataTable();
+            
+                // Custom filter function
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        if (showTodayOnly) {
+                            // Assuming the creation date is in the first column (data[0])
+                            var dateColumn = data[0];
+                            var rowDate = moment(dateColumn, "MMM D, YYYY, h:mm a"); // Parse the date string
+            
+                            // Check if parsing succeeded
+                            if (!rowDate.isValid()) {
+                                console.error('Invalid date format:', dateColumn);
+                                return false; // Exclude rows with invalid date format
+                            }
+            
+                            var today = moment().startOf('day'); // Get today's date only (without time)
+            
+                            // Check if the row date is today
+                            return rowDate.isSame(today, 'day');
+                        }
+                        return true; // Show all data
+                    }
+                );
+            
+                // Draw the table initially with the filter applied
+                table.draw();
+            
+                // Toggle button event listener
+                $('#toggleVisibility').on('click', function() {
+                    showTodayOnly = !showTodayOnly; // Toggle the showTodayOnly flag
+                    table.draw(); // Redraw the table with the new filter state
+            
+                    // Update button text
+                    $(this).text(showTodayOnly ? 'Show All Data' : 'Show Today\'s Data');
+                });
+            });
+
+
+
+
+            
+            </script>
+            
+            
+            
+        
         
     
 

@@ -26,23 +26,29 @@
     <br />
     <br />
 
-    <table id="table" class="table table-sm table-light table-hover shadow">
-      <thead class="table-active">
+    <!-- Button to toggle visibility -->
+<button id="toggleVisibility" class="btn btn-warning btn-sm mb-4">Show All Data</button>
+
+<!-- Data Table -->
+<table id="table" class="table table-sm table-light table-hover shadow">
+    <thead class="table-active">
         <tr>
-          <th scope="col">Branch Name</th>
-          <th scope="col">Date Issued</th>
-          <th scope="col">Payee</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Check Number</th>
-          <th scope="col">Status</th>
-          <th scope="col">Branch Remarks</th>
-          <th scope="col">Actions</th>
+            <th scope="col" >Creation Date</th>
+            <th scope="col">Branch Name</th>
+            <th scope="col">Date Issued</th>
+            <th scope="col">Payee</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Check Number</th>
+            <th scope="col">Status</th>
+            <th scope="col">Branch Remarks</th>
+            <th scope="col">Actions</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         {% if mc_registers %}
         {% for mc_register in mc_registers %}
         <tr>
+            <td >{{ mc_register.creation_date }}</td> <!-- Hidden column -->
             <td>{{ mc_register.branch_name }}</td>
             <td>{{ mc_register.date_issued }}</td>
             <td>{{ mc_register.payee }}</td>
@@ -50,22 +56,17 @@
             <td>{{ mc_register.check_number }}</td>
             <td>{{ mc_register.status }}</td>
             <td>{{ mc_register.branch_remarks }}</td>
-         
-        <td>
-          <a
-          class="btn btn-dark btn-sm"
-          href="{% url 'mc_register_update' mc_register.id %}"
-          >Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i
-          ></a>
-
-        </td>
-      </tr>
-
+            <td>
+                <a class="btn btn-dark btn-sm" href="{% url 'mc_register_update' mc_register.id %}">
+                    Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
         {% endfor %}
-        
         {% endif %}
-      </tbody>
-    </table>
+    </tbody>
+</table>
+
 
     {% for mc_register in mc_registers %}
 

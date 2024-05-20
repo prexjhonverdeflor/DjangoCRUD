@@ -1,13 +1,17 @@
-from django.shortcuts import render, redirect
-from .forms import CreateUserForm, LoginForm, CreateRecordForm, UpdateRecordForm, BICSetupForm, MCRegisterForm, PesoNetForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CreateUserForm, LoginForm, CreateRecordForm, UpdateRecordForm, BICSetupForm, MCRegisterForm, PesoNetForm, EditUserProfileForm
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from .models import  Record, BICSetup, MCRegister, PesoNet, UserProfile
+from django.contrib.auth import update_session_auth_hash
+
+from .forms import EditUserProfileForm, EditUserPasswordForm
  
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 
@@ -17,6 +21,7 @@ def home(request):
 
 
 # Register
+@login_required(login_url='my-login')
 def register(request):
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -28,11 +33,11 @@ def register(request):
             
             if user_type == 'admin':
                 user.is_staff = True
-                branch_type = None  # Admins do not have a branch type
+                branch_type = None 
             else:
                 user.is_staff = False
             
-            user.save()  # Save the updated user status
+            user.save()  
             
             # Create the related UserProfile
             UserProfile.objects.create(
@@ -72,7 +77,60 @@ def my_login(request):
 
 
 
-# Admin 
+
+
+
+#Admin 
+#user list
+@login_required(login_url='my-login')
+def user_list(request):
+    # Make sure the logged-in user is an admin
+    if not request.user.is_staff:
+        # Redirect to some appropriate page or raise a 403 Forbidden error
+        return redirect("dashboard")  # Redirect to dashboard for example
+
+    # Exclude the superuser account
+    users = User.objects.exclude(is_superuser=True)
+    return render(request, 'webapp/user_list.html', {'users': users})
+
+
+
+#edit user
+@login_required(login_url='my-login')
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user_profile = user.profile
+
+    if request.method == "POST":
+        profile_form = EditUserProfileForm(request.POST, instance=user_profile)
+        password_form = EditUserPasswordForm(user, request.POST)  # Use custom form
+
+        if profile_form.is_valid() and password_form.is_valid():
+            profile_form.save()
+
+            new_password = password_form.cleaned_data.get('new_password1')
+            if new_password:
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)  # Update session to prevent logout
+
+            messages.success(request, "User profile updated successfully!")
+            return redirect("user-list")
+    else:
+        profile_form = EditUserProfileForm(instance=user_profile)
+        password_form = EditUserPasswordForm(user)  # Use custom form
+
+    context = {
+        'profile_form': profile_form,
+        'password_form': password_form,
+        'user': user,
+    }
+    return render(request, 'webapp/edit-user.html', context)
+
+
+
+
+
 @login_required(login_url='my-login')
 def admin_dashboard(request):
     user_profile = UserProfile.objects.get(user=request.user)
@@ -258,7 +316,7 @@ def mc_register_update(request, mc_register_id):
 
 
 
-#PESOT
+#PESONET
 @login_required(login_url='my-login')
 def peso_net(request):
 

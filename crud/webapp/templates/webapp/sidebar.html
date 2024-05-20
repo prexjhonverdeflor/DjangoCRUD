@@ -2,8 +2,14 @@
 {% if user.is_staff %}
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a class="side-text" href="{% url 'dashboard' %}">Branch Setup</a>
+    <h5 class="m-4 text-white">Welcome, {{user}}!</h5>
+    <hr>
+    <a href="{% url 'register' %}">Add User</a>
+    <a href="{% url 'user-list' %}">Users</a>
+    <hr>
+    <a  href="{% url 'dashboard' %}">Branch Setup</a>
     <a href="{% url 'bic_setup' %}">BIC Setup</a>
+    <hr>
   </div>
 
   {% else %}

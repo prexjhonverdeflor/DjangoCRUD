@@ -20,8 +20,9 @@
                 {{ form.branch_type|as_crispy_field }}
             </div>
             <br>
-            
-            <button type="submit" class="btn btn-dark-blue w-100 rounded-5 p-2">Create</button>
+
+            <a href="{% url 'dashboard' %}" class="btn btn-dark return-btn btn-sm"> Return </a>
+            <button type="submit" class="btn btn-success btn-sm">Create</button>
         </form>
     </div>
 

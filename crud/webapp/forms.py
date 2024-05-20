@@ -9,6 +9,9 @@ from django import forms
 from django.forms.widgets import PasswordInput, TextInput, DateInput, Textarea
 from django.contrib.auth.forms import AuthenticationForm
 
+from django.contrib.auth.forms import PasswordChangeForm
+from .models import UserProfile
+
 
 
 BRANCH_TYPE_CHOICES = [
@@ -24,22 +27,20 @@ USER_TYPE_CHOICES = [
     ('cashier', 'Cashier'),
 ]
 
-# Custom form for creating a new user with additional fields for user type and branch type
+
 class CreateUserForm(UserCreationForm):
-    # User type is a required field with radio button selection
+
     user_type = forms.ChoiceField(
         choices=USER_TYPE_CHOICES, 
         required=True, 
         widget=forms.RadioSelect
     )
 
-    # Branch type is a required field with a simple dropdown (select) menu
     branch_type = forms.ChoiceField(
         choices=BRANCH_TYPE_CHOICES, 
         required=True
     )
 
-    # Meta class defines the associated model and the form fields
     class Meta:
         model = User  # Using Django's built-in User model
         fields = ['username', 'password1', 'password2', 'user_type', 'branch_type']
@@ -65,6 +66,45 @@ class CreateRecordForm(forms.ModelForm):
     class Meta:
         model = Record
         fields = ['branch_code', 'branch_name', 'status']
+
+
+#edit user
+class EditUserProfileForm(forms.ModelForm):
+    BRANCH_TYPE_CHOICES = [
+        ('head', 'Head Office'),
+        ('camalig', 'Camalig Office'),
+        ('daraga', 'Daraga Office'),
+        ('manito', 'Manito Office'),
+        ('legazpi', 'Legazpi Office'),
+    ]
+
+    branch_type = forms.ChoiceField(choices=BRANCH_TYPE_CHOICES, required=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ['branch_type']
+
+class EditUserPasswordForm(PasswordChangeForm):
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('old_password', None)  # Remove the old_password field
+
+    def clean(self):
+        cleaned_data = super().clean()
+        # You might want to add custom validation here if needed
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+
 
 
 

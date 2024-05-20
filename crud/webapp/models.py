@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 
@@ -48,6 +49,7 @@ class BICSetup(models.Model):
 
 
 class MCRegister(models.Model):
+    creation_date = models.DateTimeField(default=timezone.now)
     branch = models.CharField(max_length=50, default="Default Branch")
     branch_name = models.CharField(max_length=50, default='')
     date_issued = models.CharField(max_length=100, default='')
@@ -57,12 +59,13 @@ class MCRegister(models.Model):
     status = models.CharField(max_length=100, default='')
     branch_remarks = models.TextField(default='')
 
-    def __str__(self):
-        return f"{self.branch} ({self.date_issued})"
+    def __str__(self): 
+        return f"{self.branch} ({self.creation_date})"
     
 
 
 class PesoNet(models.Model):
+    creation_date = models.DateTimeField(auto_now_add=True)
     branch = models.CharField(max_length=50, default="Default Branch")
     branch_name = models.CharField(max_length=100, default='')  
     OFI_reference_num = models.IntegerField( default='')
