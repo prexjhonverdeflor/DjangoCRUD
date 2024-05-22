@@ -30,11 +30,11 @@
 <button id="toggleVisibility" class="btn btn-warning btn-sm mb-4">Show All Data</button>
 
 <!-- Data Table -->
-<table id="table" class="table table-sm table-light table-hover shadow">
+<table id="table2" class="table table-sm table-light table-hover shadow">
     <thead class="table-active">
         <tr>
-            <th scope="col" >Creation Date</th>
-            <th scope="col">Branch Name</th>
+            <th style="display: none;" scope="col" >Creation Date</th>
+            <th scope="col">Branch</th>
             <th scope="col">Date Issued</th>
             <th scope="col">Payee</th>
             <th scope="col">Amount</th>
@@ -48,8 +48,8 @@
         {% if mc_registers %}
         {% for mc_register in mc_registers %}
         <tr>
-            <td >{{ mc_register.creation_date }}</td> <!-- Hidden column -->
-            <td>{{ mc_register.branch_name }}</td>
+            <td style="display: none;">{{ mc_register.creation_date }}</td> 
+            <td>{{ mc_register.branch|capfirst }} Office</td>
             <td>{{ mc_register.date_issued }}</td>
             <td>{{ mc_register.payee }}</td>
             <td>{{ mc_register.amount }}</td>
@@ -66,6 +66,9 @@
         {% endif %}
     </tbody>
 </table>
+
+
+
 
 
     {% for mc_register in mc_registers %}

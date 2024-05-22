@@ -12,10 +12,7 @@
             {% csrf_token %}
             <h5 class="mb-4">Username: {{user}}</h5>
 
-            <!-- Render EditUserProfileForm with crispy -->
             {{ profile_form|crispy }}
-
-            <!-- Render EditUserPasswordForm with crispy -->
 
             {{ password_form.new_password1|as_crispy_field }}
             {{ password_form.new_password2|as_crispy_field }}

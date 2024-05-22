@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-
 from .models import Record, BICSetup, MCRegister, PesoNet
 
 from django import forms
@@ -11,7 +10,6 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import UserProfile
-
 
 
 BRANCH_TYPE_CHOICES = [
@@ -70,13 +68,6 @@ class CreateRecordForm(forms.ModelForm):
 
 #edit user
 class EditUserProfileForm(forms.ModelForm):
-    BRANCH_TYPE_CHOICES = [
-        ('head', 'Head Office'),
-        ('camalig', 'Camalig Office'),
-        ('daraga', 'Daraga Office'),
-        ('manito', 'Manito Office'),
-        ('legazpi', 'Legazpi Office'),
-    ]
 
     branch_type = forms.ChoiceField(choices=BRANCH_TYPE_CHOICES, required=True)
 
@@ -96,7 +87,6 @@ class EditUserPasswordForm(PasswordChangeForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        # You might want to add custom validation here if needed
         return cleaned_data
 
     def save(self, commit=True):
@@ -125,6 +115,7 @@ class UpdateRecordForm(forms.ModelForm):
         fields = ['branch_code','branch_name', 'status']
 
 
+
 #BIC SETUP
 class BICSetupForm(forms.ModelForm):
     class Meta:
@@ -145,7 +136,8 @@ class MCRegisterForm(forms.ModelForm):
 
     class Meta:
         model = MCRegister
-        fields = ['branch_name', 'date_issued', 'payee', 'amount', 'check_number', 'status', 'branch_remarks']
+        fields = ['date_issued', 'payee', 'amount', 'check_number', 'status', 'branch_remarks']
+        
         
         widgets = {
             'date_issued': DateInput(attrs={'type': 'date'}),
@@ -165,7 +157,7 @@ class PesoNetForm(forms.ModelForm):
 
     class Meta:
         model = PesoNet
-        fields = ['branch_name', 'OFI_reference_num', 'transact_amount', 'transact_date', 'status']
+        fields = ['OFI_reference_num', 'transact_amount', 'transact_date', 'status']
         
         widgets = {
             'transact_date': DateInput(attrs={'type': 'date'}),

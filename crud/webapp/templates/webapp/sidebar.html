@@ -2,20 +2,28 @@
 {% if user.is_staff %}
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <h5 class="m-4 text-white">Welcome, {{user}}!</h5>
-    <hr>
-    <a href="{% url 'register' %}">Add User</a>
-    <a href="{% url 'user-list' %}">Users</a>
+    
+    <h5 class="m-4 text-white"><i class="fa fa-user-circle" aria-hidden="true"></i> Welcome, {{user}}!</h5>
+    
+   
     <hr>
     <a  href="{% url 'dashboard' %}">Branch Setup</a>
     <a href="{% url 'bic_setup' %}">BIC Setup</a>
+
+    <br><br><br><br><br>
+    <br><br><br><br>
     <hr>
+    <a href="{% url 'register' %}"><i class="fa fa-user-plus" aria-hidden="true"></i> Create User</a>
+    <a href="{% url 'user-list' %}"><i class="fa fa-users" aria-hidden="true"></i> User List</a>
   </div>
 
   {% else %}
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a class="side-text" href="{% url 'mc_register' %}">MC Register</a>
+    <h5 class="m-4 text-white"><i class="fa fa-user-circle" aria-hidden="true"></i> Welcome, {{user}}!</h5>
+    <hr>
+
+    <a href="{% url 'mc_register' %}">MC Register</a>
     <a href="{% url 'peso_net' %}">PESONET</a>
 
   </div>

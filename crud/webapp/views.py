@@ -78,20 +78,15 @@ def my_login(request):
 
 
 
-
-
 #Admin 
 #user list
 @login_required(login_url='my-login')
 def user_list(request):
-    # Make sure the logged-in user is an admin
     if not request.user.is_staff:
-        # Redirect to some appropriate page or raise a 403 Forbidden error
-        return redirect("dashboard")  # Redirect to dashboard for example
+        return redirect("dashboard")  
 
-    # Exclude the superuser account
     users = User.objects.exclude(is_superuser=True)
-    return render(request, 'webapp/user_list.html', {'users': users})
+    return render(request, 'webapp/admin/user/user_list.html', {'users': users})
 
 
 
@@ -125,7 +120,7 @@ def edit_user(request, user_id):
         'password_form': password_form,
         'user': user,
     }
-    return render(request, 'webapp/edit-user.html', context)
+    return render(request, 'webapp/admin/user/edit-user.html', context)
 
 
 
@@ -198,7 +193,6 @@ def bic_setup(request):
     user_profile = UserProfile.objects.get(user=request.user)
     branch_type = user_profile.branch_type
 
-    # Retrieve all BICSetup records without filtering by branch_type
     all_bic_setups = BICSetup.objects.all()
 
     context = {
