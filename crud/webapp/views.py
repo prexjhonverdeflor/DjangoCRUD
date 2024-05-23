@@ -124,8 +124,6 @@ def edit_user(request, user_id):
 
 
 
-
-
 @login_required(login_url='my-login')
 def admin_dashboard(request):
     user_profile = UserProfile.objects.get(user=request.user)
