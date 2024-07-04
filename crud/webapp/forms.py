@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-
 from .models import Record, BICSetup, MCRegister, PesoNet
 
 from django import forms
@@ -9,6 +8,8 @@ from django import forms
 from django.forms.widgets import PasswordInput, TextInput, DateInput, Textarea
 from django.contrib.auth.forms import AuthenticationForm
 
+from django.contrib.auth.forms import PasswordChangeForm
+from .models import UserProfile
 
 
 BRANCH_TYPE_CHOICES = [
@@ -24,22 +25,20 @@ USER_TYPE_CHOICES = [
     ('cashier', 'Cashier'),
 ]
 
-# Custom form for creating a new user with additional fields for user type and branch type
+
 class CreateUserForm(UserCreationForm):
-    # User type is a required field with radio button selection
+
     user_type = forms.ChoiceField(
         choices=USER_TYPE_CHOICES, 
         required=True, 
         widget=forms.RadioSelect
     )
 
-    # Branch type is a required field with a simple dropdown (select) menu
     branch_type = forms.ChoiceField(
         choices=BRANCH_TYPE_CHOICES, 
         required=True
     )
 
-    # Meta class defines the associated model and the form fields
     class Meta:
         model = User  # Using Django's built-in User model
         fields = ['username', 'password1', 'password2', 'user_type', 'branch_type']
@@ -67,6 +66,37 @@ class CreateRecordForm(forms.ModelForm):
         fields = ['branch_code', 'branch_name', 'status']
 
 
+#edit user
+class EditUserProfileForm(forms.ModelForm):
+
+    branch_type = forms.ChoiceField(choices=BRANCH_TYPE_CHOICES, required=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ['branch_type']
+
+class EditUserPasswordForm(PasswordChangeForm):
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('old_password', None)  # Remove the old_password field
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
+
+
+
 
 
 
@@ -83,6 +113,7 @@ class UpdateRecordForm(forms.ModelForm):
     class Meta:
         model = Record
         fields = ['branch_code','branch_name', 'status']
+
 
 
 #BIC SETUP
@@ -105,7 +136,8 @@ class MCRegisterForm(forms.ModelForm):
 
     class Meta:
         model = MCRegister
-        fields = ['branch_name', 'date_issued', 'payee', 'amount', 'check_number', 'status', 'branch_remarks']
+        fields = ['date_issued', 'payee', 'amount', 'check_number', 'status', 'branch_remarks']
+        
         
         widgets = {
             'date_issued': DateInput(attrs={'type': 'date'}),
@@ -125,7 +157,7 @@ class PesoNetForm(forms.ModelForm):
 
     class Meta:
         model = PesoNet
-        fields = ['branch_name', 'OFI_reference_num', 'transact_amount', 'transact_date', 'status']
+        fields = ['OFI_reference_num', 'transact_amount', 'transact_date', 'status']
         
         widgets = {
             'transact_date': DateInput(attrs={'type': 'date'}),

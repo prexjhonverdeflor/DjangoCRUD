@@ -56,59 +56,124 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            var table = $('#table').DataTable({
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 25, 50],
-                
-                // Adjust the DOM to include a custom container for pagination
-                dom: 'B<"search-right"f>lrt<"pagination-wrapper"ip> ',
-                
+            // Initialize Table 1
+            var table1 = $('#table1').DataTable({
+                dom: 'B<"search-right1"f>lrt<"pagination-wrapper1"ip>',
                 buttons: [
                     {
                         extend: 'excelHtml5',
-                        text: 'Export to Excel',
+                        text: 'Export to Excel &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i>',
                         title: 'Exported Data',
-                        className: 'btn btn-success btn-sm mb-4', // Apply Bootstrap style
+                        className: 'btn btn-success btn-sm mb-4',
                         filename: 'exported_table',
-                        
                         customizeData: function(data) {
-                            // Remove the last column during Excel export
                             data.body.forEach(function(row) {
-                                row.pop(); 
+                                row.pop();
                             });
                         }
                     }
                 ]
             });
-            
-
-            $('.search-right').css({
-                'text-align': 'right', 
+    
+            $('.search-right1').css({
+                'text-align': 'right',
                 'margin-bottom': '-70px',
             });
-
-            $('.pagination-wrapper').css({
+    
+            $('.pagination-wrapper1').css({
                 'display': 'flex',
-                'justify-content': 'flex-end', 
-                
+                'justify-content': 'flex-end',
             });
-
-            $('.pagination-wrapper .dataTables_paginate .paginate_button.previous').css({
-                'order': 0, 
+    
+            $('.pagination-wrapper1 .dataTables_paginate .paginate_button.previous').css({
+                'order': 0,
             });
-        
-            $('.pagination-wrapper .dataTables_paginate .paginate_button.next').css({
-                'order': 0, 
+    
+            $('.pagination-wrapper1 .dataTables_paginate .paginate_button.next').css({
+                'order': 0,
             });
-
-            $('.pagination-wrapper .dataTables_paginate .paginate_button').not('.previous, .next').css({
-                'order': 0, 
+    
+            $('.pagination-wrapper1 .dataTables_paginate .paginate_button').not('.previous, .next').css({
+                'order': 0,
+            });
+    
+            // Initialize Table 2
+            var showTodayOnly = true; // Initially show only today's data
+    
+            var table2 = $('#table2').DataTable({
+                dom: 'B<"search-right2"f>lrt<"pagination-wrapper2"ip>',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Export to Excel &nbsp <i class="fa fa-file-excel-o" aria-hidden="true"></i>',
+                        title: 'Exported Data',
+                        className: 'btn btn-success btn-sm mb-4',
+                        filename: 'exported_table',
+                        customizeData: function(data) {
+                            data.body.forEach(function(row) {
+                                row.pop();
+                            });
+                        }
+                    }
+                ]
+            });
+    
+            $('.search-right2').css({
+                'text-align': 'right',
+                'margin-bottom': '-70px',
+            });
+    
+            $('.pagination-wrapper2').css({
+                'display': 'flex',
+                'justify-content': 'flex-end',
+            });
+    
+            // Custom filter function for Table 2
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    if (settings.nTable.id !== 'table2') {
+                        return true; // Skip this filter for other tables
+                    }
+    
+                    if (showTodayOnly) {
+                        var dateColumn = data[0];
+                        var rowDate = moment(dateColumn, "MMM D, YYYY, h:mm a");
+    
+                        if (!rowDate.isValid()) {
+                            console.error('Invalid date format:', dateColumn);
+                            return false;
+                        }
+    
+                        var today = moment().startOf('day');
+                        return rowDate.isSame(today, 'day');
+                    }
+                    return true;
+                }
+            );
+    
+            // Draw the table initially with the filter applied
+            table2.draw();
+    
+            // Toggle button event listener
+            $('#toggleVisibility').on('click', function() {
+                showTodayOnly = !showTodayOnly;
+                table2.draw();
+    
+                $(this).text(showTodayOnly ? 'Show All Data' : 'Show Today\'s Data');
             });
         });
-        </script>
+    </script>
+    
+            
+            
+            
+            
+            
+        
         
     
 

@@ -15,12 +15,15 @@ urlpatterns = [
     path('dashboard', views.admin_dashboard, name="dashboard"),
     path('update-record/<int:pk>', views.update_record, name="update-record"),
     path('delete-record/<int:pk>', views.delete_record, name="delete-record"),
+    path('user-list/', views.user_list, name='user-list'),
+    path('edit-user/<int:user_id>/', views.edit_user, name='edit-user'),
+    
+
 
     path('bic-setup/', views.bic_setup, name='bic_setup'),
     path('bic-create/', views.bic_setup_create, name='bic_setup_create'),
     path('bic-update/<int:bic_setup_id>', views.bic_setup_update, name='bic_setup_update'),
     path('bic-delete/<int:pk>/', views.bic_setup_delete, name='bic_setup_delete'),
-
 
     path('cashier-dashboard', views.cashier_dashboard, name='mc_register'),
     path('mc-create/', views.mc_register_create, name='mc_register_create'),
@@ -29,8 +32,6 @@ urlpatterns = [
     path('peso-net', views.peso_net, name='peso_net'),
     path('peso-create/', views.peso_create, name='peso_create'),
     path('peso-update/<int:peso_net_id>', views.peso_update, name='peso_update'),
-    
-    path('bic-cashier/', views.bic_cashier, name='bic_cashier'),
 
 
 ]

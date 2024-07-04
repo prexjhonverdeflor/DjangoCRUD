@@ -1,13 +1,17 @@
-from django.shortcuts import render, redirect
-from .forms import CreateUserForm, LoginForm, CreateRecordForm, UpdateRecordForm, BICSetupForm, MCRegisterForm, PesoNetForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import CreateUserForm, LoginForm, CreateRecordForm, UpdateRecordForm, BICSetupForm, MCRegisterForm, PesoNetForm, EditUserProfileForm
 
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from .models import  Record, BICSetup, MCRegister, PesoNet, UserProfile
+from django.contrib.auth import update_session_auth_hash
+
+from .forms import EditUserProfileForm, EditUserPasswordForm
  
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 
 
@@ -17,40 +21,36 @@ def home(request):
 
 
 # Register
+@login_required(login_url='my-login')
 def register(request):
     if request.method == "POST":
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
             
-            # Get additional fields from the form
             user_type = form.cleaned_data.get('user_type')
             branch_type = form.cleaned_data.get('branch_type')
-
-            # Set staff status based on user_type
+            
             if user_type == 'admin':
                 user.is_staff = True
+                branch_type = None 
             else:
                 user.is_staff = False
             
-            user.save()  # Save the updated user status
+            user.save()  
             
-            # Create the related UserProfile with the additional fields
+            # Create the related UserProfile
             UserProfile.objects.create(
                 user=user,
                 user_type=user_type,
                 branch_type=branch_type
             )
             
-            # Display a success message
             messages.success(request, "Account created successfully!")
-            
-            # Redirect to the dashboard or another desired location
             return redirect("dashboard")
     else:
-        form = CreateUserForm()  # If not a POST request, initialize a new form
+        form = CreateUserForm()
     
-    # Render the registration template with the form
     context = {'form': form}
     return render(request, 'webapp/register.html', context)
 
@@ -77,18 +77,64 @@ def my_login(request):
 
 
 
-# Admin 
+
+#Admin 
+#user list
+@login_required(login_url='my-login')
+def user_list(request):
+    if not request.user.is_staff:
+        return redirect("dashboard")  
+
+    users = User.objects.exclude(is_superuser=True)
+    return render(request, 'webapp/admin/user/user_list.html', {'users': users})
+
+
+
+#edit user
+@login_required(login_url='my-login')
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    user_profile = user.profile
+
+    if request.method == "POST":
+        profile_form = EditUserProfileForm(request.POST, instance=user_profile)
+        password_form = EditUserPasswordForm(user, request.POST)  # Use custom form
+
+        if profile_form.is_valid() and password_form.is_valid():
+            profile_form.save()
+
+            new_password = password_form.cleaned_data.get('new_password1')
+            if new_password:
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)  # Update session to prevent logout
+
+            messages.success(request, "User profile updated successfully!")
+            return redirect("user-list")
+    else:
+        profile_form = EditUserProfileForm(instance=user_profile)
+        password_form = EditUserPasswordForm(user)  # Use custom form
+
+    context = {
+        'profile_form': profile_form,
+        'password_form': password_form,
+        'user': user,
+    }
+    return render(request, 'webapp/admin/user/edit-user.html', context)
+
+
+
 @login_required(login_url='my-login')
 def admin_dashboard(request):
-
     user_profile = UserProfile.objects.get(user=request.user)
     branch_type = user_profile.branch_type
 
-    filtered_records = Record.objects.filter(branch=branch_type) 
+    # Retrieve all records without filtering by branch_type
+    all_records = Record.objects.all()
 
     context = {
         'branch_type': branch_type,
-        'records': filtered_records,
+        'records': all_records,
     }
 
     return render(request, 'webapp/admin/branch/dashboard.html', context)
@@ -142,15 +188,14 @@ def delete_record(request, pk):
 # BIC SETUP
 @login_required(login_url='my-login')
 def bic_setup(request):
-
     user_profile = UserProfile.objects.get(user=request.user)
     branch_type = user_profile.branch_type
 
-    filtered_records = BICSetup.objects.filter(branch=branch_type) 
+    all_bic_setups = BICSetup.objects.all()
 
     context = {
         'branch_type': branch_type,
-        'bic_setups': filtered_records,
+        'bic_setups': all_bic_setups,
     }
 
     return render(request, 'webapp/admin/bic/bic_setup.html', context)
@@ -240,6 +285,7 @@ def mc_register_create(request):
     context = {'form': form}
     return render(request, 'webapp/cashier/mcregister/mc_create.html', {'form': form})
 
+
 #edit
 @login_required(login_url='my-login')
 def mc_register_update(request, mc_register_id):
@@ -262,7 +308,7 @@ def mc_register_update(request, mc_register_id):
 
 
 
-#PESOT
+#PESONET
 @login_required(login_url='my-login')
 def peso_net(request):
 
@@ -310,25 +356,6 @@ def peso_update(request, peso_net_id):
         form = PesoNetForm(instance=peso_net)
         
     return render(request, 'webapp/cashier/pesonet/peso_update.html', {'form': form})
-
-
-
-#BIC cashier
-@login_required(login_url='my-login')
-def bic_cashier(request):
-
-    user_profile = UserProfile.objects.get(user=request.user)
-    branch_type = user_profile.branch_type
-
-    filtered_records = BICSetup.objects.filter(branch=branch_type) 
-
-    context = {
-        'branch_type': branch_type,
-        'bic_setups': filtered_records,
-    }
-
-    return render(request, 'webapp/cashier/bic/bic_cashier.html', context=context)
-
 
 
 

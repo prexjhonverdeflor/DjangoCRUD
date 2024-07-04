@@ -23,10 +23,13 @@
   <br />
   <br />
 
-  <table id="table" class="table table-sm table-light table-hover shadow">
+  <button id="toggleVisibility" class="btn btn-warning btn-sm mb-4">Show All Data</button>
+
+  <table id="table2" class="table table-sm table-light table-hover shadow">
     <thead class="table-active">
       <tr>
-        <th scope="col">Branch Name</th>
+        <th style="display: none;" scope="col" >Creation Date</th>
+        <th scope="col">Branch</th>
         <th scope="col">OFI Reference Number</th>
         <th scope="col">Transaction Amount</th>
         <th scope="col">Transaction Date</th>
@@ -38,7 +41,8 @@
       {% if peso_nets %}
       {% for peso_net in peso_nets %}
       <tr>
-          <td>{{ peso_net.branch_name }}</td>
+          <td style="display: none;">{{ peso_net.creation_date }}</td> 
+          <td>{{ peso_net.branch|capfirst }} Office</td>
           <td>{{ peso_net.OFI_reference_num }}</td>
           <td>{{ peso_net.transact_amount }}</td>
           <td>{{ peso_net.transact_date }}</td>
